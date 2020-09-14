@@ -15,4 +15,20 @@ export default class RecoveryController {
       return res.json({ error: err });
     }
   }
+
+  async recoveryPassword(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    try {
+      const updatedUser = await db('users')
+        .where({ email })
+        .update({ password });
+
+      const user = await db('users').where({ id: updatedUser });
+
+      return res.status(400).json({ user });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  }
 }
