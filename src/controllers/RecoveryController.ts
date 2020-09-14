@@ -21,8 +21,8 @@ export default class RecoveryController {
 
     try {
       const updatedUser = await db('users')
-        .where({ email })
-        .update({ password });
+        .update({ password })
+        .where({ email });
 
       const user = await db('users').where({ id: updatedUser });
 
