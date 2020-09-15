@@ -15,7 +15,7 @@ function generateToken(id: string) {
 
 export default class AuthController {
   async signup(req: Request, res: Response) {
-    const { name, surname, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     try {
       const userExists = await db('users').where({ email });

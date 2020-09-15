@@ -30,13 +30,55 @@ export default class ScheduleController {
     try {
       const scheduleItems = await db('schedule')
         .join('users', 'users.id', '=', 'schedule.user_id')
-        .select('schedule.*', 'users.name', 'users.email', 'users.whatsapp');
+        .select('schedule.*', 'users.name', 'users.email', 'users.whatsapp')
+        .join('services', 'services.id', '=', 'schedule.service_id')
+        .select('services.*');
 
       return res.status(200).json({ scheduleItems });
-    } catch (error) {}
+    } catch (error) {
+      return res.status(400).send();
+    }
   }
 
-  async update(req: Request, res: Response) {}
+  async showSpecifScheduleItem(req: Request, res: Response) {
+    const { id } = req.params;
 
-  async delete(req: Request, res: Response) {}
+    try {
+      const scheduleItems = await db('schedule')
+        .where('schedule.id', '=', id)
+        .join('users', 'schedule.user_id', '=', 'users.id')
+        .select(['schedule.*', 'users.name', 'users.email', 'users.whatsapp']);
+
+      return res.status(200).json({ scheduleItems });
+    } catch (error) {
+      return res.status(400).send();
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    const { from, to, week_day, user_id, service_id } = req.body;
+    const { id } = req.params;
+
+    try {
+      await db('schedule')
+        .update({ from, to, week_day, user_id, service_id })
+        .where({ id });
+
+      return res.status(200).send();
+    } catch (error) {
+      return res.status(400).send();
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      await db('schedule').del().where({ id });
+
+      return res.status(200).send();
+    } catch (error) {
+      return res.status(400).send();
+    }
+  }
 }

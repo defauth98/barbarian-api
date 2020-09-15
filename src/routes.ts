@@ -39,7 +39,9 @@ routes.get('/services', servicesController.index);
 // Crud de horários
 routes.post('/schedule', scheduleController.store);
 routes.get('/schedule', scheduleController.index);
-routes.put('/schedule', scheduleController.update);
-routes.delete('/schedule', scheduleController.delete);
+routes.get('/schedule/:id', scheduleController.showSpecifScheduleItem);
+
+routes.put('/schedule/:id', scheduleController.update);
+routes.delete('/schedule/:id', scheduleController.delete);
 
 export default routes;
