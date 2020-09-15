@@ -3,10 +3,12 @@ import express from 'express';
 import AuthController from './controllers/AuthController';
 import RecoveryController from './controllers/RecoveryController';
 import ServicesController from './controllers/ServicesController';
+import ScheduleController from './controllers/ScheduleController';
 
 const authController = new AuthController();
 const recoveryController = new RecoveryController();
 const servicesController = new ServicesController();
+const scheduleController = new ScheduleController();
 
 const routes = express.Router();
 
@@ -28,5 +30,8 @@ routes.post('/services', servicesController.store);
 routes.put('/services/:id', servicesController.update);
 routes.delete('/services/:id', servicesController.delete);
 routes.get('/services', servicesController.index);
+
+// Crud de horários
+routes.post('/schedule', scheduleController.store);
 
 export default routes;
