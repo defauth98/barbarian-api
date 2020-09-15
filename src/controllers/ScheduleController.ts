@@ -13,7 +13,7 @@ export default class ScheduleController {
         service_id,
       });
 
-      if (!insertedScheduleItem[0]) {
+      if (!insertedScheduleItem) {
         return res
           .status(400)
           .json({ error: 'Error creating a schedule item' });
@@ -25,7 +25,13 @@ export default class ScheduleController {
     }
   }
 
-  async index(req: Request, res: Response) {}
+  async index(req: Request, res: Response) {
+    try {
+      const scheduleItems = await db('schedule');
+
+      return res.status(200).json({ scheduleItems });
+    } catch (error) {}
+  }
 
   async update(req: Request, res: Response) {}
 

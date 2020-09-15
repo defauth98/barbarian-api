@@ -7,7 +7,7 @@
   "scripts": {
     "start": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "migrate": "knex --knexfile knexfile.ts migrate:latest",
-    "rollback": "knex --knexfile knexfile.ts migrate:rollback"
+    "rollback": "knex --knexfile knexfile.ts migrate:rollback --all"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
