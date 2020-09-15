@@ -4,11 +4,13 @@ import AuthController from './controllers/AuthController';
 import RecoveryController from './controllers/RecoveryController';
 import ServicesController from './controllers/ServicesController';
 import ScheduleController from './controllers/ScheduleController';
+import UserController from './controllers/UserController';
 
 const authController = new AuthController();
 const recoveryController = new RecoveryController();
 const servicesController = new ServicesController();
 const scheduleController = new ScheduleController();
+const userController = new UserController();
 
 const routes = express.Router();
 
@@ -24,6 +26,9 @@ routes.post('/signup', authController.signup);
 // rotas de recuperação de senhas
 routes.post('/validade-email', recoveryController.validadeEmail);
 routes.put('/recovery-password', recoveryController.recoveryPassword);
+
+// usuários
+routes.get('/users', userController.index);
 
 // crud de servicos
 routes.post('/services', servicesController.store);
