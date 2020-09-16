@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import db from '../database/connection';
+import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import db from "../database/connection";
 
-import { secret } from '../config/auth';
+import { secret } from "../config/auth";
 
 export const saltRounds = 10;
 
@@ -18,24 +18,24 @@ export default class AuthController {
     const { name, email, password } = req.body;
 
     try {
-      const userExists = await db('users').where({ email });
+      const userExists = await db("users").where({ email });
 
       if (userExists[0]) {
         return res.status(400).json({
-          error: 'Email já cadastrado',
+          error: "Email já cadastrado",
         });
       }
 
       await bcrypt.genSalt(saltRounds, function (err, salt) {
         bcrypt.hash(password, salt, async function (err, hash) {
-          await db('users').insert({
+          await db("users").insert({
             name,
             email,
             password: hash,
-            whatsapp: '',
+            whatsapp: "",
           });
 
-          const newUser = await db('users').where({ email });
+          const newUser = await db("users").where({ email });
 
           return res.status(200).json({
             User: {
@@ -49,7 +49,7 @@ export default class AuthController {
     } catch (error) {
       return res
         .status(400)
-        .json({ error: 'Erro inesperado ao criar o usuário' });
+        .json({ error: "Erro inesperado ao criar o usuário" });
     }
   }
 
@@ -57,9 +57,9 @@ export default class AuthController {
     const { email, password } = req.body;
 
     try {
-      const users = await db('users').where({ email });
+      const users = await db("users").where({ email });
       if (!users[0]) {
-        return res.json({ Error: 'Email not exists' });
+        return res.json({ Error: "Email not exists" });
       }
 
       const userPassword = users[0].password;
@@ -68,13 +68,13 @@ export default class AuthController {
         if (result) {
           const token = generateToken(users[0].id);
 
-          return res.status(200).json({ message: 'Login success', token });
+          return res.status(200).json({ message: "Login success", token });
         } else {
-          return res.status(400).json({ error: 'Wrong password' });
+          return res.status(400).json({ error: "Wrong password" });
         }
       });
     } catch (error) {
-      return res.status(400).json({ error: 'Login error' });
+      return res.status(400).json({ error: "Login error" });
     }
   }
 }
