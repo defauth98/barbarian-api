@@ -3,12 +3,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../database/connection";
 
-import { secret } from "../config/auth";
+import "dotenv/config";
 
 export const saltRounds = 10;
 
 function generateToken(id: string) {
-  return jwt.sign({ id }, secret, {
+  return jwt.sign({ id }, process.env.APP_SECRET as string, {
     expiresIn: 86400,
   });
 }
