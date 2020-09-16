@@ -37,7 +37,7 @@ export default class AuthController {
 
           const newUser = await db("users").where({ email });
 
-          return res.status(200).json({
+          return res.status(201).json({
             User: {
               id: newUser[0].id,
               email: newUser[0].email,
