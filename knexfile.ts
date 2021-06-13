@@ -1,4 +1,5 @@
 import path from "path";
+const { FsMigrations } = require('knex/lib/migrate/sources/fs-migrations')
 
 module.exports = {
   client: "pg",
@@ -6,7 +7,7 @@ module.exports = {
   connection: {
     host: "127.0.0.1",
     user: "postgres",
-    password: "",
+    password: "docker",
     database: "barbarian",
   },
   migrations: {

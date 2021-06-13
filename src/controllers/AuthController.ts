@@ -47,6 +47,8 @@ export default class AuthController {
         });
       });
     } catch (error) {
+      console.log(error)
+
       return res
         .status(400)
         .json({ error: "Erro inesperado ao criar o usuário" });

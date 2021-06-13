@@ -8,7 +8,6 @@ export default class ScheduleController {
     const { from, to, week_day, user_id, service_id } = req.body;
 
     try {
-      // Verifica se já existe um horario com os dados que foram passados
       const hourExists = await db("schedule")
         .where({ week_day })
         .andWhere("schedule.from", ">=", convertHourToMinutes(from))
@@ -18,7 +17,6 @@ export default class ScheduleController {
         return res.status(400).send({ message: "Hour already exists" });
       }
 
-      // Insere no banco de dados
       const insertedScheduleItem = await db("schedule").insert({
         from: convertHourToMinutes(from),
         to: convertHourToMinutes(to),
@@ -39,7 +37,6 @@ export default class ScheduleController {
     }
   }
 
-  // Mostra todos os horarios cadastrado ou filtra por dia da semana e horarios
   async index(req: Request, res: Response) {
     const filters = req.query;
 
@@ -48,7 +45,6 @@ export default class ScheduleController {
     const to = convertHourToMinutes(filters.to as string);
 
     try {
-      // Se os filtro de dia da semana e horarios forem passados
       if (!!filters.week_day && !!filters.to && !!filters.from) {
         const scheduleItems = await db("schedule")
           .where({ week_day })
@@ -64,9 +60,6 @@ export default class ScheduleController {
           .json({ scheduleItems, message: "filter is active" });
       }
 
-      // Caso os filtros no forem passado vai fazer um index de todos os items
-      // e fazer o join com os dados do usuário de respectivo ID e mesmo para o
-      // id do serviço que foi passado
       const scheduleItems = await db("schedule")
         .join("users", "users.id", "=", "schedule.user_id")
         .select("schedule.*", "users.name", "users.email", "users.whatsapp")
@@ -79,7 +72,6 @@ export default class ScheduleController {
     }
   }
 
-  // Retorna o schedule de um respectivo ID
   async showSpecifScheduleItem(req: Request, res: Response) {
     const { id } = req.params;
 
@@ -95,7 +87,6 @@ export default class ScheduleController {
     }
   }
 
-  // Muda o schedule item de um respectivo ID
   async update(req: Request, res: Response) {
     const { from, to, week_day, user_id, service_id } = req.body;
     const { id } = req.params;
@@ -117,7 +108,6 @@ export default class ScheduleController {
     }
   }
 
-  // Deleta um schedule item de um respectivo ID
   async delete(req: Request, res: Response) {
     const { id } = req.params;
 
