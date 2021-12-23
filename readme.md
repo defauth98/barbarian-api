@@ -1,6 +1,6 @@
 <h2 align="center">BARBARIAN API</h1>
 
-> Projeto contruído durante a matéria Hora Aula Hora Relógio da faculdade de Analise e Desenvolvimento de Sistemas.
+Projeto contruído durante a matéria Hora Aula Hora Relógio da faculdade de Analise e Desenvolvimento de Sistemas.
 
 <h1 align="center">
 
