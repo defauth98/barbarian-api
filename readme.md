@@ -7,7 +7,7 @@
 </h1>
 Projeto construído durante a matéria Hora Aula Hora Relógio da faculdade de Analise e Desenvolvimento de Sistemas. E consiste uma API Rest para agendamento de horários para uma barbearia.
 
-## :station: Rotas
+### :station: Rotas
 
 Rotas de autenticação:
 
@@ -32,7 +32,7 @@ Agenda (Necessita estar autenticado):
 - GET **/schedule** - Lista todos os horários
 - GET **/schedule/:id** - Lista um único horário
 
-## :computer: Tecnologias
+### :computer: Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes técnologias:
 
