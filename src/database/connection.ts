@@ -1,4 +1,7 @@
 import knex from "knex";
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const db = knex({
   client: "pg",
@@ -9,6 +12,7 @@ const db = knex({
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DATABASE,
     ssl: { rejectUnauthorized: false }
+
   },
 });
 

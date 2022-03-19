@@ -5,22 +5,24 @@ import convertHourToMinutes from "../utils/convertHourTominutes";
 
 export default class ScheduleController {
   async store(req: Request, res: Response) {
-    const { from, to, week_day, user_id, service_id } = req.body;
+    const { from, to, day, mounth, year, user_id, service_id } = req.body;
 
     try {
       const hourExists = await db("schedule")
-        .where({ week_day })
+        .where({ day, mounth, year })
         .andWhere("schedule.from", ">=", convertHourToMinutes(from))
         .andWhere("schedule.to", "<=", convertHourToMinutes(to));
 
       if (hourExists[0]) {
-        return res.status(400).send({ message: "Hour already exists" });
+        return res.status(400).send({ message: "Schedule item already exists" });
       }
 
       const insertedScheduleItem = await db("schedule").insert({
         from: convertHourToMinutes(from),
         to: convertHourToMinutes(to),
-        week_day,
+        day,
+        mounth,
+        year,
         user_id,
         service_id,
       });
@@ -33,7 +35,8 @@ export default class ScheduleController {
 
       return res.status(201).json({ message: "success" });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+      console.log(error)
+      return res.status(400).json({ error: "error on create item on schedule"});
     }
   }
 
@@ -41,13 +44,15 @@ export default class ScheduleController {
     const filters = req.query;
 
     try {
-      if (!!filters.week_day && !!filters.to && !!filters.from) {
-        const week_day = filters.week_day as string;
+      if (!!filters.day && !!filters.mounth && !!filters.to && !!filters.from) {
+        const day = filters.day as string;
+        const mounth = filters.mounth as string;
+        const year = filters.year as string;
         const from = convertHourToMinutes(filters.from as string);
         const to = convertHourToMinutes(filters.to as string);
 
         const scheduleItems = await db("schedule")
-          .where({ week_day })
+          .where({ day, mounth, year })
           .andWhere("schedule.from", ">=", from)
           .andWhere("schedule.to", "<=", to)
           .join("users", "users.id", "=", "schedule.user_id")
@@ -68,6 +73,7 @@ export default class ScheduleController {
 
       return res.status(200).json({ scheduleItems });
     } catch (error) {
+      console.log(error)
       return res.status(400).send();
     }
   }
