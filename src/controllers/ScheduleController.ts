@@ -32,7 +32,7 @@ export default class ScheduleController {
       }
 
       return res.status(201).json({ message: "success" });
-    } catch (error) {
+    } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }
@@ -40,12 +40,12 @@ export default class ScheduleController {
   async index(req: Request, res: Response) {
     const filters = req.query;
 
-    const week_day = filters.week_day as string;
-    const from = convertHourToMinutes(filters.from as string);
-    const to = convertHourToMinutes(filters.to as string);
-
     try {
       if (!!filters.week_day && !!filters.to && !!filters.from) {
+        const week_day = filters.week_day as string;
+        const from = convertHourToMinutes(filters.from as string);
+        const to = convertHourToMinutes(filters.to as string);
+
         const scheduleItems = await db("schedule")
           .where({ week_day })
           .andWhere("schedule.from", ">=", from)

@@ -5,7 +5,7 @@
   "author": "defauth98 <neto.daniribeiro@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "dev": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "migrate": "knex --knexfile knexfile.ts migrate:latest",
     "rollback": "knex --knexfile knexfile.ts migrate:rollback --all"
   },
