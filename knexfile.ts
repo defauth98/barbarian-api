@@ -11,6 +11,7 @@ module.exports = {
     user: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DATABASE,
+    ssl: { rejectUnauthorized: false }
   },
   migrations: {
     directory: path.resolve(__dirname, "src", "database", "migrations"),
