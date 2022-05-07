@@ -14,7 +14,9 @@ export default class ScheduleController {
         .andWhere("schedule.to", "<=", convertHourToMinutes(to));
 
       if (hourExists[0]) {
-        return res.status(400).send({ message: "Schedule item already exists" });
+        return res
+          .status(400)
+          .send({ message: "Schedule item already exists" });
       }
 
       const insertedScheduleItem = await db("schedule").insert({
@@ -35,8 +37,10 @@ export default class ScheduleController {
 
       return res.status(201).json({ message: "success" });
     } catch (error: any) {
-      console.log(error)
-      return res.status(400).json({ error: "error on create item on schedule"});
+      console.log(error);
+      return res
+        .status(400)
+        .json({ error: "error on create item on schedule" });
     }
   }
 
@@ -73,9 +77,27 @@ export default class ScheduleController {
 
       return res.status(200).json({ scheduleItems });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(400).send();
     }
+  }
+
+  async getNextItemsFromToday(req: Request, res: Response) {
+    const todayDate = new Date();
+    const today = todayDate.getDay() + 2;
+    const mounth = todayDate.getMonth() + 1;
+    const year = todayDate.getFullYear();
+
+    const scheduleItems = await db("schedule")
+      .where("schedule.day", ">=", today)
+      .where("schedule.mounth", ">=", mounth)
+      .where("schedule.year", ">=", year)
+      .join("users", "users.id", "=", "schedule.user_id")
+      .select("schedule.*", "users.name", "users.email", "users.whatsapp")
+      .join("services", "services.id", "=", "schedule.service_id")
+      .select("services.*");
+
+    return res.status(200).json({ scheduleItems });
   }
 
   async showSpecifScheduleItem(req: Request, res: Response) {

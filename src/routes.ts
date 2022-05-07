@@ -35,6 +35,7 @@ routes.get("/services", servicesController.index);
 
 routes.post("/schedule", scheduleController.store);
 routes.get("/schedule", scheduleController.index);
+routes.get("/nextSchedule", scheduleController.getNextItemsFromToday);
 routes.get("/schedule/:id", scheduleController.showSpecifScheduleItem);
 
 routes.put("/schedule/:id", scheduleController.update);
