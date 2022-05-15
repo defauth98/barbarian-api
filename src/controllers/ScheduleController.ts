@@ -82,14 +82,51 @@ export default class ScheduleController {
     }
   }
 
+  async getScheduleByUser(req: Request, res: Response) {
+    const filters = req.query;
+
+    try {
+      if (!!filters.day && !!filters.mounth && !!filters.to && !!filters.from) {
+        const day = filters.day as string;
+        const mounth = filters.mounth as string;
+        const year = filters.year as string;
+        const from = convertHourToMinutes(filters.from as string);
+        const to = convertHourToMinutes(filters.to as string);
+        const userId = filters.userId;
+
+        const scheduleItems = await db("schedule")
+          .where({ day, mounth, year, user_id: userId })
+          .andWhere("schedule.from", ">=", from)
+          .andWhere("schedule.to", "<=", to)
+          .join("users", "users.id", "=", "schedule.user_id")
+          .select("schedule.*", "users.name", "users.email", "users.whatsapp")
+          .join("services", "services.id", "=", "schedule.service_id")
+          .select("services.*");
+
+        return res
+          .status(200)
+          .json({ scheduleItems, message: "filter is active" });
+      }
+
+      const scheduleItems = await db("schedule")
+        .join("users", "users.id", "=", "schedule.user_id")
+        .select("schedule.*", "users.name", "users.email", "users.whatsapp")
+        .join("services", "services.id", "=", "schedule.service_id")
+        .select("services.*");
+
+      return res.status(200).json({ scheduleItems });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send();
+    }
+  }
+
   async getNextItemsFromToday(req: Request, res: Response) {
     const todayDate = new Date();
 
     const day = todayDate.getDate();
     const mounth = todayDate.getMonth() + 1;
     const year = todayDate.getFullYear();
-
-    console.log({ day, mounth, year });
 
     const scheduleItems = await db("schedule")
       .where("schedule.day", ">=", day)

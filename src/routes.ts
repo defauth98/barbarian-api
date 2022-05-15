@@ -35,6 +35,7 @@ routes.get("/services", servicesController.index);
 
 routes.post("/schedule", scheduleController.store);
 routes.get("/schedule", scheduleController.index);
+routes.get("/getScheduleByUser", scheduleController.getScheduleByUser);
 routes.get("/nextSchedule", scheduleController.getNextItemsFromToday);
 routes.get("/schedule/:id", scheduleController.showSpecifScheduleItem);
 
