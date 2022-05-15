@@ -47,7 +47,7 @@ export default class AuthController {
         });
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       return res
         .status(400)
@@ -59,18 +59,20 @@ export default class AuthController {
     const { email, password } = req.body;
 
     try {
-      const users = await db("users").where({ email });
-      if (!users[0]) {
+      const user = await db("users").where({ email });
+      if (!user[0]) {
         return res.json({ Error: "Email not exists" });
       }
 
-      const userPassword = users[0].password;
+      const userPassword = user[0].password;
 
       await bcrypt.compare(password, userPassword, function (err, result) {
         if (result) {
-          const token = generateToken(users[0].id);
+          const token = generateToken(user[0].id);
 
-          return res.status(200).json({ message: "Login success", token });
+          return res
+            .status(200)
+            .json({ message: "Login success", token, user: user[0] });
         } else {
           return res.status(400).json({ error: "Wrong password" });
         }
