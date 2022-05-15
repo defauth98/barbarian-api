@@ -84,12 +84,15 @@ export default class ScheduleController {
 
   async getNextItemsFromToday(req: Request, res: Response) {
     const todayDate = new Date();
-    const today = todayDate.getDay() + 2;
+
+    const day = todayDate.getDate();
     const mounth = todayDate.getMonth() + 1;
     const year = todayDate.getFullYear();
 
+    console.log({ day, mounth, year });
+
     const scheduleItems = await db("schedule")
-      .where("schedule.day", ">=", today)
+      .where("schedule.day", ">=", day)
       .where("schedule.mounth", ">=", mounth)
       .where("schedule.year", ">=", year)
       .join("users", "users.id", "=", "schedule.user_id")
