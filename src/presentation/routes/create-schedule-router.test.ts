@@ -8,7 +8,14 @@ import { Router } from '../protocols/router';
 class CreateScheduleRouter implements Router {
   route(httpRequest: HttpRequest): HttpResponse {
     try {
-      CreateScheduleSchema.parse(httpRequest.body)
+      const body = CreateScheduleSchema.safeParse(httpRequest.body)
+
+      if (!body.success) {
+        return {
+          status: 400,
+          body: { errors: body.error.errors }
+        }
+      }
 
       return {
         status: 200,
