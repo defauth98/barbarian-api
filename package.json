@@ -13,6 +13,10 @@
     "node": "18.16.0"
   },
   "devDependencies": {
+    "@types/node": "^20.3.0",
     "vitest": "^0.32.0"
+  },
+  "dependencies": {
+    "typescript": "^5.1.3"
   }
 }
