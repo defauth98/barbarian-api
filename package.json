@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "engines": {
     "node": "18.16.0"
+  },
+  "devDependencies": {
+    "vitest": "^0.32.0"
   }
 }
