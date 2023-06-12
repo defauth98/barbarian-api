@@ -1,31 +1,18 @@
 {
   "name": "barbarian-api",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "author": "defauth98 <neto.daniribeiro@gmail.com>",
-  "license": "MIT",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/src/server.js",
-    "dev": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "migrate": "knex --knexfile knexfile.ts migrate:latest",
-    "rollback": "knex --knexfile knexfile.ts migrate:rollback --all"
+    "test": ""
   },
-  "dependencies": {
-    "@types/cors": "^2.8.12",
-    "bcrypt": "^5.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.5",
-    "pg": "^8.3.3"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
-    "@types/express": "^4.17.8",
-    "@types/jsonwebtoken": "^8.5.0",
-    "ts-node-dev": "^1.0.0-pre.62",
-    "typescript": "^4.0.2"
+    "jest": "^29.5.0"
+  },
+  "engines": {
+    "node": "18.16.0"
   }
 }
